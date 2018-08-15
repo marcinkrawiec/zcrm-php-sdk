@@ -14,7 +14,9 @@ class ZCRMConfigUtil
 	public static function initialize($initializeOAuth = true, $configPath)
 	{
 		self::$configPath = $configPath;
-		$path=realpath($configPath . "/configuration.properties");
+		// echo $configPath . "configuration.properties".'<hr />';
+		// echo realpath($configPath . "configuration.properties").'<hr />';
+		$path=realpath($configPath . "configuration.properties");
 		$fileHandler=fopen($path,"r");
 		if(!$fileHandler)
 		{
@@ -24,7 +26,7 @@ class ZCRMConfigUtil
 		
 		if($initializeOAuth)
 		{
-			ZohoOAuth::initializeWithOutInputStream();
+			ZohoOAuth::initializeWithOutInputStream($configPath);
 		}
 	}
 	

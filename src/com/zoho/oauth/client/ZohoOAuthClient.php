@@ -71,6 +71,16 @@ class ZohoOAuthClient
 			$conn->addParam(ZohoOAuthConstants::GRANT_TYPE, ZohoOAuthConstants::GRANT_TYPE_AUTH_CODE);
 			$conn->addParam(ZohoOAuthConstants::CODE, $grantToken);
 			$resp = $conn->post();
+			// echo '<pre>';
+			// var_dump($conn->requestParams);
+			// echo '</pre>';
+			// die('');
+
+			// echo '<pre>';
+			// echo(ZohoOAuth::getTokenURL() . "\n");
+			// var_dump($resp);
+			// var_dump($responseJSON);
+			// die('</pre>error');
 			$responseJSON=self::processResponse($resp);
 			if(array_key_exists(ZohoOAuthConstants::ACCESS_TOKEN,$responseJSON))
 			{
@@ -92,7 +102,7 @@ class ZohoOAuthClient
 	
 	public function generateAccessTokenFromRefreshToken($refreshToken,$userEmailId)
 	{
-		self::refreshAccessToken($refreshToken,$userEmailId);
+		return self::refreshAccessToken($refreshToken,$userEmailId);
 	}
 	public function refreshAccessToken($refreshToken,$userEmailId)
 	{
@@ -107,12 +117,17 @@ class ZohoOAuthClient
 			$conn->addParam(ZohoOAuthConstants::REFRESH_TOKEN, $refreshToken);
 			$response = $conn->post();
 			$responseJSON=self::processResponse($response);
+			echo '<pre>';
+			var_dump($response);
+			var_dump($responseJSON);
 			if (array_key_exists(ZohoOAuthConstants::ACCESS_TOKEN,$responseJSON))
 			{
 				$tokens = self::getTokensFromJSON($responseJSON);
 				$tokens->setRefreshToken($refreshToken);
 				$tokens->setUserEmailId($userEmailId);
 				ZohoOAuth::getPersistenceHandlerInstance()->saveOAuthData($tokens);
+				var_dump($tokens);
+				echo '</pre>';
 				return $tokens;
 			}
 			else

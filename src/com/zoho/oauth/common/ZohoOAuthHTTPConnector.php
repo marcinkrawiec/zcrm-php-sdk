@@ -3,7 +3,7 @@ require_once 'ZohoOAuthConstants.php';
 class ZohoOAuthHTTPConnector
 {
 	private $url;
-	private $requestParams = array();
+	public $requestParams = array();
 	private $requestHeaders = array();
 	private $requestParamCount=0;
 	 

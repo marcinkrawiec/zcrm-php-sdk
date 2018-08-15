@@ -26,6 +26,7 @@ class ZohoOAuthPersistenceByFile implements ZohoOAuthPersistenceInterface
 			}
 			array_push($arr,$zohoOAuthTokens);
 			$serialized=serialize($arr);
+			var_dump($arr);
 			file_put_contents($this->path . "zcrm_oauthtokens.txt", $serialized,FILE_USE_INCLUDE_PATH);
 		}
 		catch (Exception $ex)
