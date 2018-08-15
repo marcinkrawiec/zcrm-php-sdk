@@ -8,8 +8,11 @@ class ZohoOAuthPersistenceByFile implements ZohoOAuthPersistenceInterface
 	{
 		$path=ZohoOAuth::getConfigValue('token_persistence_path');
 		$path=trim($path);
-		$path = realpath(dirname(__FILE__).'../../../../../');
+		$path = realpath(dirname(__FILE__).'/../../../../../'.$path).'/';
 		$this->path = $path;
+		if (!file_exists($this->path . 'zcrm_oauthtokens.txt')) {
+			touch($this->path . 'zcrm_oauthtokens.txt');
+		}
 	}
 	
 	public function saveOAuthData($zohoOAuthTokens)
@@ -17,7 +20,8 @@ class ZohoOAuthPersistenceByFile implements ZohoOAuthPersistenceInterface
 		try{
 			self::deleteOAuthTokens($zohoOAuthTokens->getUserEmailId());
 			self::setIncludePath();
-			$content=file_get_contents($this->path . "zcrm_oauthtokens.txt",FILE_USE_INCLUDE_PATH);
+			$content=file_get_contents($this->path . "zcrm_oauthtokens.txt");
+
 			if($content=="")
 			{
 				$arr=array();
@@ -28,7 +32,7 @@ class ZohoOAuthPersistenceByFile implements ZohoOAuthPersistenceInterface
 			array_push($arr,$zohoOAuthTokens);
 			$serialized=serialize($arr);
 			var_dump($arr);
-			file_put_contents($this->path . "zcrm_oauthtokens.txt", $serialized,FILE_USE_INCLUDE_PATH);
+			file_put_contents($this->path . "zcrm_oauthtokens.txt", $serialized);
 		}
 		catch (Exception $ex)
 		{
@@ -41,7 +45,7 @@ class ZohoOAuthPersistenceByFile implements ZohoOAuthPersistenceInterface
 	{
 		try{
 			self::setIncludePath();
-			$serialized=file_get_contents($this->path . "zcrm_oauthtokens.txt",FILE_USE_INCLUDE_PATH);
+			$serialized=file_get_contents($this->path . "zcrm_oauthtokens.txt");
 			if(!isset($serialized) || $serialized=="")
 			{
 				throw new ZohoOAuthException("No Tokens exist for the given user-identifier,Please generate and try again.");
@@ -80,7 +84,7 @@ class ZohoOAuthPersistenceByFile implements ZohoOAuthPersistenceInterface
 	{
 		try{
 			self::setIncludePath();
-			$serialized=file_get_contents($this->path . "zcrm_oauthtokens.txt",FILE_USE_INCLUDE_PATH);
+			$serialized=file_get_contents($this->path . "zcrm_oauthtokens.txt");
 			if(!isset($serialized) || $serialized=="")
 			{
 				return;
@@ -102,7 +106,7 @@ class ZohoOAuthPersistenceByFile implements ZohoOAuthPersistenceInterface
 				$arr=array_values(array_filter($arr));
 			}
 			$serialized=serialize($arr);
-			file_put_contents($this->path . "zcrm_oauthtokens.txt", $serialized,FILE_USE_INCLUDE_PATH);
+			file_put_contents($this->path . "zcrm_oauthtokens.txt", $serialized);
 		}
 		catch (Exception $ex)
 		{
