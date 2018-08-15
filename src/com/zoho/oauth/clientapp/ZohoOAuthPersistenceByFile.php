@@ -8,6 +8,7 @@ class ZohoOAuthPersistenceByFile implements ZohoOAuthPersistenceInterface
 	{
 		$path=ZohoOAuth::getConfigValue('token_persistence_path');
 		$path=trim($path);
+		$path = realpath(dirname(__FILE__).'../../../../../');
 		$this->path = $path;
 	}
 	
