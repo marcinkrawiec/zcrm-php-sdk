@@ -15,9 +15,9 @@ class ZCRMRestClient
 	{
 		return new ZCRMRestClient();
 	}
-	public static function initialize()
+	public static function initialize($path)
 	{
-		ZCRMConfigUtil::initialize(true);
+		ZCRMConfigUtil::initialize(true, $path);
 	}
 	
 	public function getAllModules()
