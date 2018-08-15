@@ -117,17 +117,17 @@ class ZohoOAuthClient
 			$conn->addParam(ZohoOAuthConstants::REFRESH_TOKEN, $refreshToken);
 			$response = $conn->post();
 			$responseJSON=self::processResponse($response);
-			echo '<pre>';
-			var_dump($response);
-			var_dump($responseJSON);
+			// echo '<pre>';
+			// var_dump($response);
+			// var_dump($responseJSON);
 			if (array_key_exists(ZohoOAuthConstants::ACCESS_TOKEN,$responseJSON))
 			{
 				$tokens = self::getTokensFromJSON($responseJSON);
 				$tokens->setRefreshToken($refreshToken);
 				$tokens->setUserEmailId($userEmailId);
 				ZohoOAuth::getPersistenceHandlerInstance()->saveOAuthData($tokens);
-				var_dump($tokens);
-				echo '</pre>';
+				// var_dump($tokens);
+				// echo '</pre>';
 				return $tokens;
 			}
 			else
