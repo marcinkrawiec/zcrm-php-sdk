@@ -8,7 +8,7 @@ class APIHandler implements APIHandlerInterface
 	protected $urlPath;
 	
 	protected $requestHeaders;
-	protected $requestParams;
+	protected $requestParams = array();
 	protected $requestBody;
 	protected $apiKey;
 	
