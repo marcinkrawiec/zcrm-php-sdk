@@ -12,16 +12,16 @@ class ZohoOAuth
 
 	private static $configProperties =array();
 	
-	public static function initializeWithOutInputStream()
+	public static function initializeWithOutInputStream($path)
 	{
-		self::initialize(false);
+		self::initialize(false, $path);
 	}
 	
-	public static function initialize($configFilePointer)
+	public static function initialize($configFilePointer = false, $path)
 	{
 		try
 		{
-			$configPath=realpath(dirname(__FILE__)."/../../../../resources/oauth_configuration.properties");
+			$configPath=realpath($path . "oauth_configuration.properties");
 			$filePointer=fopen($configPath,"r");
 			self::$configProperties = ZohoOAuthUtil::getFileContentAsMap($filePointer);
 			if($configFilePointer!=false)

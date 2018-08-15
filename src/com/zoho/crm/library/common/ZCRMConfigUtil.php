@@ -5,14 +5,16 @@ require_once realpath(dirname(__FILE__)."/../../../oauth/client/ZohoOAuth.php");
 class ZCRMConfigUtil
 {
 	private static $configProperties=array();
+	private static $configPath='./';
 	
 	public static function getInstance()
 	{
 		return new ZCRMConfigUtil();
 	}
-	public static function initialize($initializeOAuth)
+	public static function initialize($initializeOAuth = true, $configPath)
 	{
-		$path=realpath(dirname(__FILE__)."/../../../../../resources/configuration.properties");
+		self::$configPath = $configPath;
+		$path=realpath($configPath . "/configuration.properties");
 		$fileHandler=fopen($path,"r");
 		if(!$fileHandler)
 		{
