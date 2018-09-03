@@ -4,13 +4,16 @@ class Logger
 {
 	public static function writeToFile($msg)
 	{
-		set_include_path(ZCRMConfigUtil::getConfigValue('applicationLogFilePath'));
-		$path=ZCRMConfigUtil::getConfigValue('applicationLogFilePath');
-		if($path{strlen($path)-1}!='\/')
-		{
-			$path=$path."/";
+		$path = ZCRMConfigUtil::getConfigValue('applicationLogFilePath');
+
+		$path=trim($path);
+		// echo $path."<hr />";
+		$path = realpath(dirname(__FILE__).'/../../../../../../'.$path).'/';
+		// echo $path."<hr />";
+
+		if (!file_exists($path."ZCRMClientLibrary.log")) {
+			touch($path."ZCRMClientLibrary.log");
 		}
-		// $path=str_replace("\n", "", $path);
 		$filePointer=fopen($path."ZCRMClientLibrary.log","a");
 		if(!$filePointer)
 		{
