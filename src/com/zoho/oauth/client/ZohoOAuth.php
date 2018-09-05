@@ -21,7 +21,12 @@ class ZohoOAuth
 	{
 		try
 		{
-			$configPath=realpath($path . "oauth_configuration.properties");
+			
+			if (strpos($_SERVER['SERVER_NAME'], 'codeclan') !== false) {
+				$configPath=realpath($path . "oauth_configuration.codeclan.properties");
+			} else {
+				$configPath=realpath($path . "oauth_configuration.properties");
+			}
 			$filePointer=fopen($configPath,"r");
 			self::$configProperties = ZohoOAuthUtil::getFileContentAsMap($filePointer);
 			if($configFilePointer!=false)

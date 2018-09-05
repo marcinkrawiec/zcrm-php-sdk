@@ -20,7 +20,7 @@ class ZCRMRecord
 	private $createdTime=null;
 	private $modifiedTime=null;
 	
-	private $fieldNameVsValue=array();
+	public $fieldNameVsValue=array();
 	private $properties = array();
 	private $participants = array();
 	private $priceDetails = array();

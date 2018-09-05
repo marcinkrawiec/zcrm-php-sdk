@@ -12,6 +12,7 @@ class ZohoOAuthHTTPConnector
 		$curl_pointer=curl_init();
 		curl_setopt($curl_pointer,CURLOPT_URL,self::getUrl());
 		curl_setopt($curl_pointer,CURLOPT_HEADER,1);
+		// curl_setopt($curl_pointer, CURLOPT_VERBOSE, true);
 		curl_setopt($curl_pointer,CURLOPT_POSTFIELDS,self::getUrlParamsAsString($this->requestParams));
 		curl_setopt($curl_pointer,CURLOPT_RETURNTRANSFER,true);
 		curl_setopt($curl_pointer,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
@@ -19,6 +20,10 @@ class ZohoOAuthHTTPConnector
 		curl_setopt($curl_pointer,CURLOPT_POST,$this->requestParamCount);
 		curl_setopt($curl_pointer,CURLOPT_CUSTOMREQUEST,ZohoOAuthConstants::REQUEST_METHOD_POST);
 		$result=curl_exec($curl_pointer);
+		if ($result === FALSE) {
+		    printf("cUrl error (#%d): %s<br>\n", curl_errno($curl_pointer),
+		           htmlspecialchars(curl_error($curl_pointer)));
+		}		
 		curl_close($curl_pointer);
 		
 		return $result;
@@ -35,6 +40,10 @@ class ZohoOAuthHTTPConnector
 		curl_setopt($curl_pointer,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
 		curl_setopt($curl_pointer,CURLOPT_CUSTOMREQUEST,ZohoOAuthConstants::REQUEST_METHOD_GET);
 		$result=curl_exec($curl_pointer);
+		if ($result === FALSE) {
+		    printf("cUrl error (#%d): %s<br>\n", curl_errno($curl_pointer),
+		           htmlspecialchars(curl_error($curl_pointer)));
+		}		
 		curl_close($curl_pointer);
 		
 		return $result;

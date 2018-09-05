@@ -116,9 +116,11 @@ class ZohoOAuthClient
 			$conn->addParam(ZohoOAuthConstants::GRANT_TYPE, ZohoOAuthConstants::GRANT_TYPE_REFRESH);
 			$conn->addParam(ZohoOAuthConstants::REFRESH_TOKEN, $refreshToken);
 			$response = $conn->post();
-			$responseJSON=self::processResponse($response);
 			// echo '<pre>';
+			// echo "response:\n";
 			// var_dump($response);
+			// echo '</pre>';
+			$responseJSON=self::processResponse($response);
 			// var_dump($responseJSON);
 			if (array_key_exists(ZohoOAuthConstants::ACCESS_TOKEN,$responseJSON))
 			{
@@ -197,6 +199,11 @@ class ZohoOAuthClient
     }
     public function processResponse($apiResponse)
     {
+    	// var_dump($apiResponse);
+    	// echo '<pre>';
+    	// $res = debug_backtrace();
+    	// var_dump($res);
+    	// echo '</pre>';
     	list($headers, $content) = explode("\r\n\r\n",$apiResponse,2);
     	$jsonResponse=json_decode($content,true);
     	
